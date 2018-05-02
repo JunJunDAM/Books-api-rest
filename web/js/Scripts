@@ -1,0 +1,38 @@
+<script>
+        window.onload = function () {
+
+            const t = document.getElementById("titulo")
+            const d = document.getElementById("descripcion")
+            const p = document.getElementById("precio")
+
+            const params = `titulo=${t.value}&descripcion=${d.value}&precio=${p.value}`
+
+            const URL = "rest/gestion"
+            const ajax = new XMLHttpRequest()
+
+
+            function gestionarEnvio() {
+                ajax.open("POST", URL, true)
+                ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+                ajax.onreadystatechange = gestionarRespuesta
+                ajax.send(encodeURI(params))
+            }
+
+            function gestionarRespuesta() {
+                if(ajax.readyState === 4)
+                    if(ajax.status === 200){
+                        const mensaje = ajax.responseText
+                        document.getElementById("estado").innerText = mensaje
+                        limpiarCampos()
+                    }
+
+            }
+
+            function limpiarCampos() {
+                t.value = ""
+                d.value = ""
+                p.value = ""
+                t.focus()
+            }
+        }
+    </script>
